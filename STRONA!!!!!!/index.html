@@ -1,0 +1,1939 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <link rel="icon" type="image/png" href="uwu.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cake by NANA</title>
+    
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=DM+Sans:wght@400;500;600;700&display=swap">
+    
+    <!-- Tailwind CSS v4 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
+    <style>
+        @layer base {
+            html { scroll-behavior: smooth; }
+            body {
+                margin: 0;
+                background: hsl(35, 48%, 97%);
+                color: hsl(332, 27%, 22%);
+                font-family: 'DM Sans', sans-serif;
+            }
+            button, input, textarea, select { font: inherit; }
+            button { cursor: pointer; }
+        }
+
+        .cake-app {
+            min-height: 100dvh;
+            overflow-x: hidden;
+            background:
+                radial-gradient(circle at 8% 4%, rgba(247, 184, 204, .3), transparent 26rem),
+                radial-gradient(circle at 95% 14%, rgba(177, 217, 209, .25), transparent 28rem),
+                hsl(35, 48%, 97%);
+        }
+
+        .grain {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 10;
+            opacity: .038;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+        }
+
+        .page-shell { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+        @media (min-width: 768px) {
+            .page-shell { padding: 0 32px; }
+        }
+
+        .display { font-family: 'Bricolage Grotesque', sans-serif; letter-spacing: -.05em; }
+        .eyebrow { color: #b95b78; font-size: .7rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+
+        .site-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 18px 0; position: relative; z-index: 2;
+        }
+        .wordmark { display: inline-flex; align-items: center; gap: 8px; color: #422934; text-decoration: none; }
+        .wordmark-logo { height: 38px; width: auto; object-fit: contain; }
+        
+        .site-nav { display: flex; align-items: center; gap: 14px; }
+        .site-nav a { color: #745965; text-decoration: none; font-size: .8rem; font-weight: 600; transition: color .2s; }
+        .site-nav a:hover { color: #bd5473; }
+        .header-cta { border: 1.5px solid #e6a5b7; border-radius: 999px; padding: 8px 16px; color: #bd5473; background: rgba(255, 249, 242, .7); font-size: .78rem !important; font-weight: 700 !important; box-shadow: 0 4px 12px rgba(189,84,115,.08); }
+
+        /* Hero Layout */
+        .hero { display: grid; grid-template-columns: 1fr; gap: 32px; padding: 24px 0 50px; position: relative; text-align: center; }
+        @media (min-width: 900px) {
+            .hero { grid-template-columns: 1.1fr 0.9fr; align-items: center; padding: 40px 0 80px; gap: 50px; text-align: left; }
+        }
+        .hero-copy { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; }
+        @media (min-width: 900px) { .hero-copy { align-items: flex-start; } }
+
+        .hero h1 { font-size: clamp(2.8rem, 9vw, 4.5rem); line-height: .92; color: #4a2b38; margin: 14px 0 20px; font-family: 'Bricolage Grotesque', sans-serif; }
+        .hero h1 em { color: #db6483; font-style: normal; position: relative; white-space: nowrap; }
+        .hero h1 em::after { content: ''; position: absolute; left: 2px; right: -6px; bottom: -2px; height: 7px; border-radius: 50%; background: #f4b6c6; opacity: .75; transform: rotate(-2deg); z-index: -1; }
+        .hero-lede { color: #735865; font-size: 1rem; line-height: 1.65; margin: 0 auto 24px; max-width: 500px; }
+        @media (min-width: 900px) { .hero-lede { margin-left: 0; margin-right: 0; } }
+
+        .hero-actions { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px; width: 100%; }
+        @media (min-width: 900px) { .hero-actions { justify-content: flex-start; } }
+
+        .primary-btn { border: 0; border-radius: 999px; background: #df6d8c; color: #fff8f2; font-weight: 700; padding: 14px 24px; box-shadow: 0 6px 0 #f3c0cb, 0 12px 24px rgba(177, 75, 111, .2); transition: transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .2s ease; cursor: pointer; text-decoration: none; display: inline-block; text-align: center; font-size: .95rem; width: 100%; }
+        @media (min-width: 480px) { .primary-btn { width: auto; } }
+        .primary-btn:hover { transform: translateY(-3px); box-shadow: 0 9px 0 #f3c0cb, 0 16px 28px rgba(177, 75, 111, .25); }
+        .primary-btn:active { transform: translateY(1px); box-shadow: 0 3px 0 #f3c0cb; }
+        
+        .text-link { color: #89566a; text-decoration: none; font-size: .85rem; font-weight: 700; padding: 10px 6px; display: inline-flex; align-items: center; transition: color .2s; }
+        .text-link:hover { color: #4a2b38; }
+        .text-link span { display: inline-block; margin-left: 6px; transition: transform .2s ease; }
+        .text-link:hover span { transform: translateX(3px); }
+        
+        .hero-note { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 24px; color: #8b6b75; font-size: .75rem; font-weight: 500; }
+        @media (min-width: 900px) { .hero-note { justify-content: flex-start; } }
+        .hero-note-rule { width: 28px; height: 1.5px; background: #e5a7b8; display: none; }
+        @media (min-width: 900px) { .hero-note-rule { display: block; } }
+
+        .hero-art { min-height: 360px; position: relative; display: grid; place-items: center; }
+        .art-backdrop { position: absolute; width: min(100%, 340px); aspect-ratio: 1 / .9; border-radius: 47% 53% 45% 55% / 45% 43% 57% 55%; background: #f7d5db; transform: rotate(5deg); filter: blur(1px); }
+        .art-paper { position: absolute; width: min(94%, 310px); aspect-ratio: 1 / .9; border-radius: 44% 56% 48% 52% / 50% 42% 58% 50%; background: #faeee4; box-shadow: 14px 16px 0 rgba(213, 123, 145, .12); transform: rotate(-4deg); }
+        .cake-tray { width: min(92%, 290px); position: relative; z-index: 1; background: #fffaf4; border: 1.5px solid #edc7c7; border-radius: 26px; padding: 18px 18px 16px; box-shadow: 0 18px 36px rgba(136, 73, 91, .15); transform: rotate(2deg); }
+        .tray-ribbon { position: absolute; right: 16px; top: 14px; color: #c56a82; font-size: .58rem; letter-spacing: .12em; font-weight: 700; text-transform: uppercase; }
+        .cake-tray-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+        .cake-tray-title { color: #5d3945; font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.05rem; font-weight: 700; }
+        .cake-tray-sub { color: #a7838c; font-size: .62rem; }
+        .pops-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px 6px; padding: 8px; background: #f9e8df; border-radius: 18px; }
+        .pop { aspect-ratio: 1 / 1.22; position: relative; min-width: 0; }
+        .pop-ball { position: absolute; top: 0; left: 50%; width: 74%; aspect-ratio: 1; transform: translateX(-50%); border-radius: 49% 51% 45% 55%; box-shadow: inset -4px -4px 0 rgba(124, 54, 76, .08), 1px 3px 0 rgba(124, 54, 76, .1); }
+        .pop-stick { position: absolute; top: 68%; left: 50%; height: 30%; width: 4px; transform: translateX(-50%); background: #d5a27f; border-radius: 0 0 4px 4px; }
+        .pop-sprinkles::after { content: '· ˙'; position: absolute; inset: 15% 0 auto; text-align: center; color: rgba(255,255,255,.8); font-size: 1rem; transform: rotate(-11deg); }
+        .pink { background: #ed9cb1; } .rose { background: #d76687; } .blue { background: #9dcfe0; } .lavender { background: #bcaedc; } .cream { background: #f4d8a2; }
+        .art-caption { position: absolute; z-index: 2; left: 0; bottom: 12px; transform: rotate(-4deg); border: 1.5px solid #e9c0c3; background: #fffaf4; border-radius: 14px; padding: 9px 14px; box-shadow: 6px 8px 0 rgba(195, 111, 133, .12); color: #906170; font-family: 'Bricolage Grotesque', sans-serif; font-size: .82rem; font-weight: 600; }
+        .star { position: absolute; color: #e39a4c; font-size: 1.4rem; z-index: 2; animation: floaty 5s ease-in-out infinite; }
+        .star-a { top: 30px; right: 4%; } .star-b { bottom: 10px; right: 10%; font-size: 1rem; animation-delay: -2s; }
+
+        .mini-strip { border-top: 1.5px solid #edd5d2; border-bottom: 1.5px solid #edd5d2; display: grid; grid-template-columns: 1fr; gap: 12px; padding: 16px 0; margin-bottom: 20px; }
+        @media (min-width: 640px) {
+            .mini-strip { grid-template-columns: repeat(3, 1fr); gap: 0; padding: 18px 0; }
+            .mini-item { border-right: 1.5px solid #edd5d2; }
+            .mini-item:last-child { border-right: 0; }
+        }
+        .mini-item { display: flex; align-items: center; justify-content: flex-start; gap: 12px; color: #765966; font-size: .78rem; font-weight: 600; padding: 6px 0; }
+        @media (min-width: 640px) { .mini-item { justify-content: center; padding: 0; } }
+        .mini-icon { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 10px; background: #f8d7dd; color: #c4637f; font-size: .85rem; box-shadow: 0 2px 6px rgba(196,99,127,.15); }
+
+        /* Sekcja kreatora i nagłówki */
+        .section-intro { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 28px; }
+        @media (min-width: 768px) {
+            .section-intro { flex-direction: row; align-items: end; justify-content: space-between; text-align: left; gap: 20px; margin-bottom: 32px; }
+        }
+        .section-intro h2 { color: #4a2b38; font-size: clamp(2.2rem, 7vw, 3.4rem); line-height: .94; margin: 8px 0 0; max-width: 520px; font-family: 'Bricolage Grotesque', sans-serif; }
+        .section-intro p { color: #826873; line-height: 1.55; max-width: 360px; margin: 10px auto 0; font-size: .88rem; }
+        @media (min-width: 768px) { .section-intro p { margin: 10px 0 0; } }
+        
+        .builder-section { padding: 40px 0 80px; }
+        .builder-layout { display: grid; grid-template-columns: 1fr; gap: 24px; align-items: start; }
+        @media (min-width: 960px) {
+            .builder-layout { grid-template-columns: minmax(0, 1fr) 360px; gap: 28px; }
+        }
+        
+        .builder-card { border: 1.5px solid #edcecd; background: rgba(255, 250, 244, .95); border-radius: 24px; padding: 20px; box-shadow: 0 12px 35px rgba(123, 73, 85, .05); }
+        @media (min-width: 640px) { .builder-card { padding: 30px; border-radius: 28px; } }
+
+        .stepper { display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 28px; overflow-x: auto; padding-bottom: 6px; }
+        @media (min-width: 768px) { .stepper { justify-content: flex-start; } }
+        .step-pill { display: inline-flex; align-items: center; gap: 6px; color: #9d7782; font-size: .68rem; font-weight: 700; white-space: nowrap; }
+        .step-pill.active { color: #cf5d7b; }
+        .step-number { width: 24px; height: 24px; display: grid; place-items: center; border-radius: 50%; background: #f3e5e0; color: #a17c83; font-size: .68rem; font-weight: 700; }
+        .step-pill.active .step-number { background: #df6d8c; color: #fff8f2; box-shadow: 0 2px 6px rgba(223,109,140,.3); }
+        .step-line { height: 1.5px; flex: 1; min-width: 20px; max-width: 45px; background: #ead6d1; }
+
+        /* Podział na kompozycje */
+        .split-qty-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 14px; }
+        @media (min-width: 480px) { .split-qty-grid { grid-template-columns: repeat(2, 1fr); } }
+        .split-qty-item { border: 1.5px solid #ead2d0; border-radius: 14px; background: #fffaf5; padding: 10px 12px; }
+        .split-qty-item label { display: block; color: #8e6470; font-size: .66rem; font-weight: 700; margin-bottom: 6px; }
+        .split-sum-indicator { grid-column: 1 / -1; font-size: .68rem; font-weight: 700; margin-top: 2px; }
+        .split-sum-indicator.ok { color: #4c8c76; }
+        .split-sum-indicator.bad { color: #c8617c; }
+
+        .split-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 22px; }
+        .split-tab { border: 1.5px solid #ead2d0; background: #fffaf5; color: #8e6470; border-radius: 999px; padding: 7px 14px; font-size: .72rem; font-weight: 700; transition: all .2s; }
+        .split-tab.active { border-color: #dc6c89; background: #df6d8c; color: #fff8f2; box-shadow: 0 4px 12px rgba(220,108,137,.22); }
+        .split-tab-note { color: #a7838c; font-size: .65rem; font-weight: 600; margin-bottom: 10px; }
+        
+        .choice-section + .choice-section { border-top: 1.5px dashed #e8d1ce; padding-top: 24px; margin-top: 24px; }
+        .choice-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+        .choice-heading h3 { color: #5a3543; font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.15rem; margin: 0; }
+        .choice-heading p { color: #a7838c; font-size: .65rem; margin: 0; font-weight: 600; }
+        
+        .choice-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .choice-grid.four { grid-template-columns: repeat(2, 1fr); }
+        .choice-grid.three { grid-template-columns: repeat(2, 1fr); }
+        .choice-grid.details { grid-template-columns: repeat(2, 1fr); }
+        
+        @media (min-width: 640px) {
+            .choice-grid.four { grid-template-columns: repeat(4, 1fr); }
+            .choice-grid.three { grid-template-columns: repeat(3, 1fr); }
+            .choice-grid.details { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (min-width: 960px) {
+            .choice-grid.details { grid-template-columns: repeat(5, 1fr); }
+        }
+        
+        .choice-card { position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 65px; border: 1.5px solid #ead2d0; border-radius: 14px; background: #fffaf5; padding: 12px; color: #694753; transition: all .2s cubic-bezier(.34,1.56,.64,1); cursor: pointer; }
+        .choice-card:hover { border-color: #e59ab0; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(105,71,83,.06); }
+        .choice-card.selected { border-color: #dc6c89; background: #fff0f1; box-shadow: inset 0 0 0 1.5px #dc6c89, 0 4px 12px rgba(220,108,137,.12); }
+        .choice-card > input:not(.quantity-input) { position: absolute; opacity: 0; pointer-events: none; }
+        .choice-card-label { font-size: .78rem; font-weight: 700; line-height: 1.3; }
+        .choice-card-price { color: #a98289; font-size: .6rem; margin-top: 4px; font-weight: 500; }
+        
+        .inline-custom-input { width: 100%; margin-top: 10px; }
+        .conditional-choice-block { margin-top: 12px; padding: 12px; border: 1.5px dashed #e8c7c8; border-radius: 14px; background: rgba(255, 247, 245, .7); }
+        .conditional-label { color: #9b707b; font-size: .66rem; font-weight: 700; margin: 0 0 8px; }
+        .conditional-label span { color: #c8617c; font-weight: 600; }
+        .marble-colors { margin-top: 12px; padding-top: 12px; border-top: 1.5px dashed #ead0cf; }
+        
+        .quantity-card small { color: #a98289; font-size: .6rem; font-weight: 500; }
+        .quantity-help { grid-column: 1 / -1; color: #a98289; font-size: .6rem; line-height: 1.4; margin-top: 4px; }
+        .required-field { display: grid; gap: 5px; }
+        .required-field label { color: #8e6470; font-size: .66rem; font-weight: 700; }
+        .required-field label span { color: #c8617c; font-weight: 600; }
+        
+        .quantity-card { display: grid; grid-template-columns: 1fr; align-items: center; gap: 6px; min-height: auto; }
+        @media (min-width: 480px) {
+            .quantity-card { grid-template-columns: auto 1fr; gap: 12px; min-height: 65px; }
+        }
+        .quantity-input { width: 100%; border: 1.5px solid #e3bdc1; border-radius: 12px; padding: 9px 12px; background: #fffdf9; color: #56333f; outline: none; font-size: .88rem; transition: border-color .2s; }
+        .quantity-input:focus, .field-input:focus, .notes-input:focus, .coupon-input:focus { border-color: #d96784; box-shadow: 0 0 0 3px rgba(217, 103, 132, .12); }
+        
+        .color-swatch { width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255,255,255,.95); box-shadow: 0 0 0 1.5px #e6c9c8; margin-bottom: 6px; }
+        .swatch-pastel { background: #f3b5c5; } .swatch-dark { background: #d96687; } .swatch-baby { background: #9ed5e4; } .swatch-blue { background: #74b8d4; } .swatch-light-purple { background: #cfbfe1; } .swatch-purple { background: #a28ac6; } .swatch-gray { background: #cfd8dc; } .swatch-black { background: #37474f; } .swatch-marble { background: linear-gradient(135deg, #edc9d1 15%, #f9eee5 15% 45%, #b4d7d4 45% 58%, #f9eee5 58%); }
+        
+        .details-card { min-height: 80px; }
+        .check-mark { position: absolute; top: 10px; right: 10px; width: 15px; height: 15px; border: 1.5px solid #ddb7bd; border-radius: 5px; transition: all .2s; }
+        .choice-card.selected .check-mark { background: #df6d8c; border-color: #df6d8c; }
+        .choice-card.selected .check-mark::after { content: ''; position: absolute; width: 7px; height: 3.5px; left: 3px; top: 3.5px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg); }
+
+        .notes-input { width: 100%; min-height: 85px; resize: vertical; border: 1.5px solid #ead2d0; border-radius: 14px; background: #fffaf5; color: #56333f; outline: none; padding: 12px; line-height: 1.45; font-size: .82rem; transition: border-color .2s; }
+        .notes-input::placeholder, .field-input::placeholder, .coupon-input::placeholder { color: #c29fa4; }
+
+        /* Koszyk / Karta podsumowania */
+        .summary-card { position: relative; border-radius: 26px; background: #543440; color: #fff6ed; padding: 24px; box-shadow: 0 18px 40px rgba(75, 43, 53, .2); overflow: hidden; margin-top: 16px; }
+        @media (min-width: 960px) {
+            .summary-card { position: sticky; top: 20px; margin-top: 0; padding: 28px; border-radius: 28px; }
+        }
+        .summary-card::after { content: ''; position: absolute; width: 160px; height: 160px; border: 1.5px solid rgba(255, 206, 215, .15); border-radius: 50%; right: -60px; top: -60px; }
+        .summary-label { color: #f2b7c6; letter-spacing: .14em; text-transform: uppercase; font-size: .62rem; font-weight: 700; }
+        .summary-card h3 { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.5rem; letter-spacing: -.03em; margin: 6px 0 18px; }
+        .summary-list { display: grid; gap: 12px; border-top: 1.5px solid rgba(255, 228, 221, .16); border-bottom: 1.5px solid rgba(255, 228, 221, .16); padding: 16px 0; }
+        .summary-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font-size: .76rem; }
+        .summary-row span:first-child { color: #eacbd0; }
+        .summary-row strong { color: #fff7ef; font-weight: 600; text-align: right; }
+        .summary-total { display: flex; align-items: end; justify-content: space-between; padding: 18px 0 16px; }
+        .summary-total span { color: #eacbd0; font-size: .75rem; }
+        .summary-total strong { font-family: 'Bricolage Grotesque', sans-serif; font-size: 2.2rem; line-height: .9; color: #fff8f2; letter-spacing: -.05em; }
+        
+        .summary-coupon { display: flex; gap: 8px; margin-bottom: 14px; }
+        .coupon-input { flex: 1; min-width: 0; border: 1.5px solid rgba(255, 219, 219, .25); border-radius: 10px; padding: 9px 12px; outline: none; background: rgba(255,255,255,.08); color: #fff8f2; font-size: .75rem; text-transform: uppercase; transition: border-color .2s; }
+        .coupon-button { border: 1.5px solid rgba(255, 219, 219, .35); border-radius: 10px; padding: 0 14px; background: #e894aa; color: #573440; font-size: .72rem; font-weight: 700; cursor: pointer; transition: background .2s; }
+        .coupon-button:hover { background: #f3a6bb; }
+        .coupon-success { color: #b8dfcf; font-size: .66rem; margin: -8px 0 14px; font-weight: 600; }
+        .coupon-error { color: #ffd2d7; font-size: .66rem; margin: -8px 0 14px; font-weight: 600; }
+        
+        .builder-error { color: #ffd2d7; background: rgba(218, 104, 132, .22); border: 1.5px solid rgba(255, 190, 201, .4); border-radius: 10px; padding: 10px 12px; font-size: .66rem; line-height: 1.4; margin: 12px 0 0; font-weight: 500; }
+        .summary-primary { width: 100%; background: #f5b0bf; color: #543440; box-shadow: none; text-align: center; text-decoration: none; display: block; border-radius: 999px; font-weight: 700; padding: 14px 20px; cursor: pointer; border: none; font-size: .92rem; transition: transform .2s, box-shadow .2s; }
+        .summary-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 0 #d77c91, 0 10px 20px rgba(0,0,0,.15); }
+        .summary-primary:disabled { opacity: 0.45; cursor: not-allowed; box-shadow: none; transform: none; }
+        .summary-footnote { color: #dcbac0; font-size: .64rem; line-height: 1.45; text-align: center; margin: 14px 0 0; }
+
+        /* Modal Zamówienia */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(74, 43, 56, 0.75);
+            backdrop-filter: blur(6px);
+            z-index: 100;
+            display: grid;
+            place-items: center;
+            padding: 12px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s cubic-bezier(.4,0,.2,1);
+        }
+        @media (min-width: 640px) { .modal-overlay { padding: 24px; } }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        
+        .modal-content {
+            background: #f4e4dd;
+            border-radius: 28px;
+            max-width: 720px;
+            width: 100%;
+            max-height: 94vh;
+            overflow-y: auto;
+            padding: 22px;
+            box-shadow: 0 24px 50px rgba(50, 25, 35, 0.3);
+            position: relative;
+            transform: translateY(20px) scale(0.98);
+            transition: transform 0.3s cubic-bezier(.34,1.56,.64,1);
+        }
+        @media (min-width: 640px) { .modal-content { padding: 36px; border-radius: 32px; } }
+        .modal-overlay.active .modal-content { transform: translateY(0) scale(1); }
+        
+        .modal-close {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: #fff9f3;
+            border: 1.5px solid #eccfc7;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: grid;
+            place-items: center;
+            color: #6e4b57;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background .2s, transform .2s;
+        }
+        .modal-close:hover { background: #fbece6; transform: scale(1.05); }
+
+        .order-section { background: transparent; padding: 0; }
+        .order-grid { display: grid; grid-template-columns: 1fr; gap: 0; }
+        .order-copy h2 { color: #4a2b38; font-size: clamp(1.8rem, 5vw, 2.6rem); line-height: .95; margin: 4px 0 12px; font-family: 'Bricolage Grotesque', sans-serif; }
+        .order-copy p { color: #816670; line-height: 1.6; font-size: .86rem; margin-bottom: 16px; }
+        .contact-card { background: #fff9f3; border: 1.5px solid #eccfc7; border-radius: 20px; padding: 16px; }
+        @media (min-width: 640px) { .contact-card { border-radius: 26px; padding: 26px; } }
+        
+        .review-box {
+            background: #fcf3ee;
+            border: 1.5px solid #e2c3bc;
+            border-radius: 16px;
+            padding: 14px;
+            margin-bottom: 16px;
+        }
+        .review-box h4 {
+            color: #4a2b38;
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: .98rem;
+            margin: 0 0 10px 0;
+        }
+        .review-list {
+            display: grid;
+            gap: 6px;
+            font-size: 0.77rem;
+            color: #6e4b57;
+            margin-bottom: 14px;
+            border-bottom: 1.5px dashed #e2c3bc;
+            padding-bottom: 12px;
+        }
+        .review-item { display: flex; justify-content: space-between; gap: 10px; }
+        .review-item span:first-child { color: #9c7882; font-weight: 500; }
+        .review-item strong { color: #4a2b38; text-align: right; }
+        .review-comp-block { display: block; padding: 8px 0; border-bottom: 1px dashed #e2c3bc; }
+        .review-comp-block:last-child { border-bottom: 0; }
+        .review-comp-title { color: #b8536f; font-weight: 700; font-size: .74rem; margin-bottom: 4px; }
+        .review-comp-detail { color: #6e4b57; font-size: .73rem; line-height: 1.5; }
+        .comp-summary-group { border-top: 1px dashed rgba(255, 228, 221, .25); padding-top: 8px; margin-top: 4px; }
+        .comp-summary-group:first-child { border-top: 0; padding-top: 0; margin-top: 0; }
+        .comp-summary-heading { color: #f2b7c6; font-size: .68rem; font-weight: 700; margin-bottom: 4px; }
+
+        .confirm-checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 16px;
+            cursor: pointer;
+        }
+        .confirm-checkbox-group input[type="checkbox"] {
+            margin-top: 3px;
+            accent-color: #df6d8c;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+        .confirm-checkbox-group label {
+            color: #5a3543;
+            font-size: .75rem;
+            font-weight: 700;
+            cursor: pointer;
+            line-height: 1.4;
+        }
+
+        .contact-fields { display: grid; grid-template-columns: 1fr; gap: 12px; }
+        @media (min-width: 640px) { .contact-fields { grid-template-columns: 1fr 1fr; gap: 14px; } }
+        .field { display: grid; gap: 5px; }
+        .field.wide { grid-column: 1 / -1; }
+        .field label { color: #6e4b57; font-size: .68rem; font-weight: 700; }
+        .field-input { width: 100%; border: 1.5px solid #e6c8c5; border-radius: 12px; padding: 10px 12px; background: #fffdf9; color: #56333f; outline: none; font-size: .84rem; transition: border-color .2s; }
+        .field-help { color: #a17e84; font-size: .6rem; line-height: 1.4; }
+        .contact-consent { color: #a17e84; font-size: .65rem; line-height: 1.45; margin: 14px 0 16px; }
+        .contact-actions { display: flex; flex-direction: column; align-items: stretch; gap: 12px; }
+        @media (min-width: 480px) {
+            .contact-actions { flex-direction: row; justify-content: space-between; align-items: center; }
+            .contact-actions .primary-btn { width: auto; }
+        }
+
+        /* Obietnica / Sekcja Pracowni */
+        .promise-section { padding: 50px 0 80px; }
+        .promise-grid { display: grid; grid-template-columns: 1fr; gap: 35px; align-items: center; }
+        @media (min-width: 900px) { .promise-grid { grid-template-columns: 1.2fr .8fr; gap: 60px; } }
+        .promise-statement { color: #4a2b38; font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(2rem, 5vw, 3.4rem); line-height: .96; letter-spacing: -.04em; max-width: 740px; margin: 0; }
+        .promise-statement mark { background: linear-gradient(transparent 56%, #f4c5cf 56%); color: inherit; }
+        .promise-list { display: grid; gap: 16px; }
+        .promise-item { display: grid; grid-template-columns: 32px 1fr; gap: 12px; align-items: start; }
+        .promise-dot { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 10px; background: #d9ece5; color: #54877b; font-family: 'Bricolage Grotesque', sans-serif; font-size: .78rem; font-weight: 700; box-shadow: 0 2px 6px rgba(84,135,123,.15); }
+        .promise-item strong { display: block; color: #62404c; font-family: 'Bricolage Grotesque', sans-serif; font-size: .95rem; margin-bottom: 3px; }
+        .promise-item span { color: #967881; font-size: .74rem; line-height: 1.45; }
+
+        /* Stopka */
+        .site-footer { background: #52333f; color: #f6ddd9; padding: 30px 0; }
+        .footer-inner { display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
+        @media (min-width: 640px) { .footer-inner { flex-direction: row; justify-content: space-between; align-items: center; gap: 20px; } }
+        .footer-inner .wordmark { color: #fff4ea; }
+        .footer-copy { color: #d8b7ba; font-size: .68rem; }
+        .footer-contact { color: #f5c1ca; text-decoration: none; font-size: .72rem; font-weight: 700; transition: color .2s; }
+        .footer-contact:hover { color: #fff; }
+
+        @keyframes floaty { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-7px) rotate(4deg); } }
+    </style>
+</head>
+<body class="cake-app">
+    <div class="grain"></div>
+
+    <!-- Header -->
+    <header class="site-header page-shell">
+        <a href="#" class="wordmark">
+            <img src="be0a888f-14ad-4208-bf30-945b65a19325 (1).png" alt="Cake by NANA Logo" class="wordmark-logo">
+        </a>
+        <nav class="site-nav">
+            <a href="#kreator" class="hidden sm:inline">Stwórz pudełko</a>
+            <a href="#kreator" class="header-cta">Zamów popsowy zestaw</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero page-shell">
+        <div class="hero-copy">
+            <span class="eyebrow">Zaprojektuj swoje cake-popy na telefonie!</span>
+            <h1 class="display">Urodzinowy pomysł, <em>zamknięty w pudełku.</em></h1>
+            <p class="hero-lede">Ręcznie robione cake popsy, które wyglądają jak małe prezenty. Ty wybierasz kolory i smaki, my dodajemy odrobinę magii.</p>
+            <div class="hero-actions">
+                <a href="#kreator" class="primary-btn">Zacznij komponować</a>
+             </div>
+            <div class="hero-note">
+                <div class="hero-note-rule"></div>
+                <span>każda sztuka dekorowana ręcznie w naszej pracowni</span>
+            </div>
+        </div>
+        <div class="hero-art">
+            <span class="star star-a">✦</span>
+            <span class="star star-b">✦</span>
+            <div class="art-backdrop"></div>
+            <div class="art-paper"></div>
+            <div class="cake-tray">
+                <span class="tray-ribbon">zrobione z miloscią</span>
+                <div class="cake-tray-top">
+                    <div>
+                        <div class="cake-tray-title">Twoje pudełko</div>
+                        <div class="cake-tray-sub">ręcznie dekorowane</div>
+                    </div>
+                </div>
+                <div class="pops-grid">
+                    <div class="pop"><div class="pop-ball pink pop-sprinkles"></div><div class="pop-stick"></div></div>
+                    <div class="pop"><div class="pop-ball rose"></div><div class="pop-stick"></div></div>
+                    <div class="pop"><div class="pop-ball cream"></div><div class="pop-stick"></div></div>
+                    <div class="pop"><div class="pop-ball lavender pop-sprinkles"></div><div class="pop-stick"></div></div>
+                    <div class="pop"><div class="pop-ball blue"></div><div class="pop-stick"></div></div>
+                    <div class="pop"><div class="pop-ball rose"></div><div class="pop-stick"></div></div>
+                    <div class="pop"><div class="pop-ball pink"></div><div class="pop-stick"></div></div>
+                    <div class="pop"><div class="pop-ball blue"></div><div class="pop-stick"></div></div>
+                    <div class="pop"><div class="pop-ball lavender"></div><div class="pop-stick"></div></div>
+                    <div class="pop"><div class="pop-ball cream pop-sprinkles"></div><div class="pop-stick"></div></div>
+                </div>
+            </div>
+            <div class="art-caption">małe słodkości, wielkie wow</div>
+        </div>
+    </section>
+
+    <!-- Mini Strip -->
+    <div class="mini-strip page-shell">
+        <div class="mini-item">
+            <div class="mini-icon">♥</div>
+            <span>pieczemy na świeżo</span>
+        </div>
+        <div class="mini-item">
+            <div class="mini-icon">✦</div>
+            <span>personalizujesz po swojemu</span>
+        </div>
+        <div class="mini-item">
+            <div class="mini-icon">🎁</div>
+            <span>pakujemy jak prezent</span>
+        </div>
+    </div>
+
+    <!-- Builder Section -->
+    <section id="kreator" class="builder-section page-shell">
+        <div class="section-intro">
+            <div>
+                <span class="eyebrow">Zróbmy coś pysznego</span>
+                <h2 class="display">Ułóż swoje pudełko.</h2>
+            </div>
+            <p>Wybierz bazę, smaki i małe detale. Podsumowanie i dopłata za pudełko (+4 zł) są zawsze pod ręką.</p>
+        </div>
+
+        <div class="builder-layout">
+            <!-- Builder Options Form -->
+            <div class="builder-card">
+                <div class="stepper">
+                    <div class="step-pill active"><div class="step-number">01</div> baza</div>
+                    <div class="step-line"></div>
+                    <div class="step-pill active"><div class="step-number">02</div> smak</div>
+                    <div class="step-line"></div>
+                    <div class="step-pill active"><div class="step-number">03</div> wygląd</div>
+                </div>
+
+                <!-- KROK 1: Ilość -->
+                <div class="choice-section">
+                    <div class="choice-heading">
+                        <div>
+                            <h3 class="display">Ile słodkości?</h3>
+                        </div>
+                        <p>od 60 zł za pudełko</p>
+                    </div>
+                    <div class="choice-grid four">
+                        <div class="choice-card" onclick="setQuantityOption(10, 6.00, this)">
+                            <input type="radio" name="qty_opt">
+                            <span class="check-mark"></span>
+                            <div>
+                                <div class="choice-card-label">10 szt.</div>
+                            </div>
+                            <div class="choice-card-price">6 zł / szt.</div>
+                        </div>
+                        <div class="choice-card" onclick="setQuantityOption(20, 5.00, this)">
+                            <input type="radio" name="qty_opt">
+                            <span class="check-mark"></span>
+                            <div>
+                                <div class="choice-card-label">20 szt.</div>
+                            </div>
+                            <div class="choice-card-price">5 zł / szt.</div>
+                        </div>
+                        <div class="choice-card" onclick="setQuantityOption(30, 4.50, this)">
+                            <input type="radio" name="qty_opt">
+                            <span class="check-mark"></span>
+                            <div>
+                                <div class="choice-card-label">30 szt.</div>
+                            </div>
+                            <div class="choice-card-price">4,50 zł / szt.</div>
+                        </div>
+                        <div class="choice-card quantity-card" onclick="selectCustomCard(this)">
+                            <input type="radio" name="qty_opt" id="custom-radio">
+                            <span class="check-mark"></span>
+                            <div style="grid-column: 1 / -1;">
+                                <div class="choice-card-label">Własna liczba</div>
+                                <small>wpisz ilość</small>
+                            </div>
+                            <div class="quantity-help">do 10 szt. – 6 zł · od 11-30 – 5 zł · 30+ – 4,50 zł (rabat 10% od 100 szt.)</div>
+                            <div class="inline-custom-input" style="grid-column: 1 / -1;" onclick="event.stopPropagation()">
+                                <input type="number" id="custom-qty-input" class="quantity-input" min="1" max="200" value="35" oninput="handleCustomInput(this.value)" onblur="handleCustomInputBlur(this)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KROK 1.5: Podział na kompozycje -->
+                <div class="choice-section">
+                    <div class="choice-heading">
+                        <div>
+                            <h3 class="display">Kilka smaków lub kolorów?</h3>
+                        </div>
+                        <p>+5 zł za każdą dodatkową kompozycję</p>
+                    </div>
+                    <p style="color: #826873; font-size: .8rem; margin: -6px 0 12px;">Czy chcesz, żeby to zamówienie miało kilka kompozycji dekoracji lub smaków?</p>
+                    <div class="choice-grid" style="grid-template-columns: repeat(2, 1fr);">
+                        <div class="choice-card" id="split-no-card" onclick="setSplitChoice(false, this)">
+                            <input type="radio" name="split_choice"><span class="check-mark"></span>
+                            <div class="choice-card-label">Nie</div>
+                            <div class="choice-card-price">jedna kompozycja</div>
+                        </div>
+                        <div class="choice-card" id="split-yes-card" onclick="setSplitChoice(true, this)">
+                            <input type="radio" name="split_choice"><span class="check-mark"></span>
+                            <div class="choice-card-label">Tak</div>
+                            <div class="choice-card-price">podziel zamówienie</div>
+                        </div>
+                    </div>
+
+                    <div id="split-count-block" style="display: none; margin-top: 14px;">
+                        <div class="conditional-label" style="margin-bottom: 6px;">Podziel na:</div>
+                        <div class="choice-grid three">
+                            <div class="choice-card" id="split-count-2" onclick="setSplitCount(2, this)">
+                                <input type="radio" name="split_count"><span class="check-mark"></span>
+                                <div class="choice-card-label">2 kompozycje</div>
+                                <div class="choice-card-price">+5,00 zł</div>
+                            </div>
+                            <div class="choice-card" id="split-count-3" onclick="setSplitCount(3, this)">
+                                <input type="radio" name="split_count"><span class="check-mark"></span>
+                                <div class="choice-card-label">3 kompozycje</div>
+                                <div class="choice-card-price">+10,00 zł</div>
+                            </div>
+                            <div class="choice-card" id="split-count-4" onclick="setSplitCount(4, this)">
+                                <input type="radio" name="split_count"><span class="check-mark"></span>
+                                <div class="choice-card-label">4 kompozycje</div>
+                                <div class="choice-card-price">+15,00 zł</div>
+                            </div>
+                        </div>
+
+                        <div id="split-qty-block" style="display: none;">
+                            <div class="conditional-label" style="margin: 14px 0 0;">Ile sztuk w każdej kompozycji? <span>(suma musi się zgadzać z całkowitą ilością)</span></div>
+                            <div id="split-qty-inputs" class="split-qty-grid"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="split-tabs-wrapper" style="display: none;">
+                    <div class="split-tab-note">Wypełnij smak, polewę i dodatki osobno dla każdej kompozycji:</div>
+                    <div id="split-tabs" class="split-tabs"></div>
+                </div>
+
+                <!-- KROK 2: Smak (Środek) -->
+                <div class="choice-section">
+                    <div class="choice-heading">
+                        <div>
+                            <h3 class="display">Co kryje środek?</h3>
+                        </div>
+                        <p>wybierz jeden smak</p>
+                    </div>
+                    <div class="choice-grid three">
+                        <div class="choice-card" data-fill="Wanilia" onclick="setFilling('Wanilia', 0, this)">
+                            <input type="radio" name="filling"><span class="check-mark"></span>
+                            <div class="choice-card-label">Wanilia</div>
+                            <div class="choice-card-price">bez dopłaty</div>
+                        </div>
+                        <div class="choice-card" data-fill="Czekolada" onclick="setFilling('Czekolada', 0, this)">
+                            <input type="radio" name="filling"><span class="check-mark"></span>
+                            <div class="choice-card-label">Czekolada</div>
+                            <div class="choice-card-price">bez dopłaty</div>
+                        </div>
+                        <div class="choice-card" data-fill="Oreo" onclick="setFilling('Oreo', 1.00, this)">
+                            <input type="radio" name="filling"><span class="check-mark"></span>
+                            <div class="choice-card-label">Oreo</div>
+                            <div class="choice-card-price">+1,00 zł / szt.</div>
+                        </div>
+                        <div class="choice-card" data-fill="Biscoff" onclick="setFilling('Biscoff', 1.00, this)">
+                            <input type="radio" name="filling"><span class="check-mark"></span>
+                            <div class="choice-card-label">Biscoff</div>
+                            <div class="choice-card-price">+1,00 zł / szt.</div>
+                        </div>
+                        <div class="choice-card" data-fill="Dubai Style" onclick="setFilling('Dubai Style', 2.00, this)">
+                            <input type="radio" name="filling"><span class="check-mark"></span>
+                            <div class="choice-card-label">Dubai Style</div>
+                            <div class="choice-card-price">+2,00 zł / szt.</div>
+                        </div>
+                        <div class="choice-card" data-fill="Twoje ciasteczko" onclick="setFilling('Twoje ciasteczko', 1.00, this, true)">
+                            <input type="radio" name="filling"><span class="check-mark"></span>
+                            <div class="choice-card-label">Twoje ciasteczko</div>
+                            <div class="choice-card-price">+1,00 zł / szt.</div>
+                        </div>
+                    </div>
+
+                    <div id="custom-cookie-block" class="conditional-choice-block" style="display: none;">
+                        <div class="required-field">
+                            <label>Jakie ciasteczko? <span>* wymagane</span></label>
+                            <input type="text" id="custom-cookie-text" class="field-input" placeholder="Np. Oreo, Lotus, Kinder Bueno" oninput="updateState()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KROK 3: Polewa i kolor -->
+                <div class="choice-section">
+                    <div class="choice-heading">
+                        <div>
+                            <h3 class="display">Polewa i kolor</h3>
+                        </div>
+                        <p>klasycznie lub odważnie</p>
+                    </div>
+
+                    <div style="margin-bottom: 14px;">
+                        <div class="conditional-label" style="margin-bottom: 6px;">Wybierz polewę bazową:</div>
+                        <div class="choice-grid three">
+                            <div class="choice-card" data-coat="Biała czekolada" onclick="setCoating('Biała czekolada', 0, this)">
+                                <input type="radio" name="coating"><span class="check-mark"></span>
+                                <div class="choice-card-label">Biała czekolada</div>
+                                <div class="choice-card-price">koloryzacja opcjonalna</div>
+                            </div>
+                            <div class="choice-card" data-coat="Mleczna czekolada" onclick="setCoating('Mleczna czekolada', 0, this)">
+                                <input type="radio" name="coating"><span class="check-mark"></span>
+                                <div class="choice-card-label">Mleczna czekolada</div>
+                                <div class="choice-card-price">bez dopłaty</div>
+                            </div>
+                            <div class="choice-card" data-coat="Gorzka czekolada" onclick="setCoating('Gorzka czekolada', 0, this)">
+                                <input type="radio" name="coating"><span class="check-mark"></span>
+                                <div class="choice-card-label">Gorzka czekolada</div>
+                                <div class="choice-card-price">bez dopłaty</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 14px;">
+                        <div class="conditional-label" style="margin-bottom: 6px;">Opcjonalnie: dodatek do czekolady</div>
+                        <div class="choice-grid three">
+                            <div class="choice-card" data-addon="Bez dodatku" onclick="setCoatingAddon('Bez dodatku', 0, this)">
+                                <input type="radio" name="coating_addon"><span class="check-mark"></span>
+                                <div class="choice-card-label">Bez dodatku</div>
+                                <div class="choice-card-price">bez dopłaty</div>
+                            </div>
+                            <div class="choice-card" data-addon="Pokruszone orzechy" onclick="setCoatingAddon('Pokruszone orzechy', 1.00, this, 'nuts')">
+                                <input type="radio" name="coating_addon"><span class="check-mark"></span>
+                                <div class="choice-card-label">Orzechy</div>
+                                <div class="choice-card-price">+1,00 zł / szt.</div>
+                            </div>
+                            <div class="choice-card" data-addon="Pokruszone ciasteczka" onclick="setCoatingAddon('Pokruszone ciasteczka', 1.00, this, 'cookies')">
+                                <input type="radio" name="coating_addon"><span class="check-mark"></span>
+                                <div class="choice-card-label">Ciasteczka</div>
+                                <div class="choice-card-price">+1,00 zł / szt.</div>
+                            </div>
+                        </div>
+
+                        <div id="addon-text-block" class="conditional-choice-block" style="display: none;">
+                            <div class="required-field">
+                                <label id="addon-text-label">Jakie orzechy? <span>* wymagane</span></label>
+                                <input type="text" id="addon-detail-text" class="field-input" placeholder="Np. migdały, włoskie..." oninput="updateState()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="colorization-wrapper" style="margin-top: 16px; display: none;">
+                        <div class="conditional-label" style="margin-bottom: 6px;">Koloryzacja białej czekolady</div>
+                        <div class="choice-grid four">
+                            <div class="choice-card" data-color="Bez koloru" onclick="setColor('Bez koloru', 0, this)">
+                                <input type="radio" name="color"><span class="check-mark"></span>
+                                <div class="color-swatch" style="background: #fffdf9; border: 1.5px solid #d9b8bd;"></div>
+                                <div class="choice-card-label">Naturalna</div>
+                                <div class="choice-card-price">bez koloru</div>
+                            </div>
+                            <div class="choice-card" data-color="Pastelowy róż" onclick="setColor('Pastelowy róż', 0, this)">
+                                <input type="radio" name="color"><span class="check-mark"></span>
+                                <div class="color-swatch swatch-pastel"></div>
+                                <div class="choice-card-label">Pastel. róż</div>
+                                <div class="choice-card-price">w cenie</div>
+                            </div>
+                            <div class="choice-card" data-color="Ciemny róż" onclick="setColor('Ciemny róż', 0, this)">
+                                <input type="radio" name="color"><span class="check-mark"></span>
+                                <div class="color-swatch swatch-dark"></div>
+                                <div class="choice-card-label">Ciemny róż</div>
+                                <div class="choice-card-price">w cenie</div>
+                            </div>
+                            <div class="choice-card" data-color="Baby blue" onclick="setColor('Baby blue', 0, this)">
+                                <input type="radio" name="color"><span class="check-mark"></span>
+                                <div class="color-swatch swatch-baby"></div>
+                                <div class="choice-card-label">Baby blue</div>
+                                <div class="choice-card-price">w cenie</div>
+                            </div>
+                            <div class="choice-card" data-color="Niebieski" onclick="setColor('Niebieski', 0, this)">
+                                <input type="radio" name="color"><span class="check-mark"></span>
+                                <div class="color-swatch swatch-blue"></div>
+                                <div class="choice-card-label">Niebieski</div>
+                                <div class="choice-card-price">w cenie</div>
+                            </div>
+                            <div class="choice-card" data-color="Jasny fiolet" onclick="setColor('Jasny fiolet', 0, this)">
+                                <input type="radio" name="color"><span class="check-mark"></span>
+                                <div class="color-swatch swatch-light-purple"></div>
+                                <div class="choice-card-label">Jasny fiolet</div>
+                                <div class="choice-card-price">w cenie</div>
+                            </div>
+                            <div class="choice-card" data-color="Fiolet" onclick="setColor('Fiolet', 0, this)">
+                                <input type="radio" name="color"><span class="check-mark"></span>
+                                <div class="color-swatch swatch-purple"></div>
+                                <div class="choice-card-label">Fiolet</div>
+                                <div class="choice-card-price">w cenie</div>
+                            </div>
+                            <div class="choice-card" data-color="Szary" onclick="setColor('Szary', 0, this)">
+                                <input type="radio" name="color"><span class="check-mark"></span>
+                                <div class="color-swatch swatch-gray"></div>
+                                <div class="choice-card-label">Szary</div>
+                                <div class="choice-card-price">w cenie</div>
+                            </div>
+                            <div class="choice-card" data-color="Czarny" onclick="setColor('Czarny', 0, this)">
+                                <input type="radio" name="color"><span class="check-mark"></span>
+                                <div class="color-swatch swatch-black"></div>
+                                <div class="choice-card-label">Czarny</div>
+                                <div class="choice-card-price">w cenie</div>
+                            </div>
+                            <div class="choice-card" style="grid-column: span 2;" data-color="Marmurkowy" onclick="setColor('Marmurkowy', 1.00, this)">
+                                <input type="radio" name="color"><span class="check-mark"></span>
+                                <div class="color-swatch swatch-marble"></div>
+                                <div class="choice-card-label">Marmurkowy (mix)</div>
+                                <div class="choice-card-price">+1,00 zł / szt.</div>
+                            </div>
+                        </div>
+
+                        <div id="marble-colors-block" class="marble-colors" style="display: none;">
+                            <div class="required-field">
+                                <label>Wybierz min. jeden kolor do marmurka <span>* wymagane</span></label>
+                                <div class="choice-grid four" style="margin-top: 6px;">
+                                    <div class="choice-card" data-marble="Pastelowy róż" style="min-height: 40px; padding: 6px;" onclick="toggleMarbleColor('Pastelowy róż', this)">
+                                        <input type="checkbox" name="marble_chk" value="Pastelowy róż"><span class="check-mark"></span>
+                                        <div class="choice-card-label" style="font-size: 0.65rem;">Pastelowy róż</div>
+                                    </div>
+                                    <div class="choice-card" data-marble="Ciemny róż" style="min-height: 40px; padding: 6px;" onclick="toggleMarbleColor('Ciemny róż', this)">
+                                        <input type="checkbox" name="marble_chk" value="Ciemny róż"><span class="check-mark"></span>
+                                        <div class="choice-card-label" style="font-size: 0.65rem;">Ciemny róż</div>
+                                    </div>
+                                    <div class="choice-card" data-marble="Baby blue" style="min-height: 40px; padding: 6px;" onclick="toggleMarbleColor('Baby blue', this)">
+                                        <input type="checkbox" name="marble_chk" value="Baby blue"><span class="check-mark"></span>
+                                        <div class="choice-card-label" style="font-size: 0.65rem;">Baby blue</div>
+                                    </div>
+                                    <div class="choice-card" data-marble="Niebieski" style="min-height: 40px; padding: 6px;" onclick="toggleMarbleColor('Niebieski', this)">
+                                        <input type="checkbox" name="marble_chk" value="Niebieski"><span class="check-mark"></span>
+                                        <div class="choice-card-label" style="font-size: 0.65rem;">Niebieski</div>
+                                    </div>
+                                    <div class="choice-card" data-marble="Jasny fiolet" style="min-height: 40px; padding: 6px;" onclick="toggleMarbleColor('Jasny fiolet', this)">
+                                        <input type="checkbox" name="marble_chk" value="Jasny fiolet"><span class="check-mark"></span>
+                                        <div class="choice-card-label" style="font-size: 0.65rem;">Jasny fiolet</div>
+                                    </div>
+                                    <div class="choice-card" data-marble="Fiolet" style="min-height: 40px; padding: 6px;" onclick="toggleMarbleColor('Fiolet', this)">
+                                        <input type="checkbox" name="marble_chk" value="Fiolet"><span class="check-mark"></span>
+                                        <div class="choice-card-label" style="font-size: 0.65rem;">Fiolet</div>
+                                    </div>
+                                    <div class="choice-card" data-marble="Szary" style="min-height: 40px; padding: 6px;" onclick="toggleMarbleColor('Szary', this)">
+                                        <input type="checkbox" name="marble_chk" value="Szary"><span class="check-mark"></span>
+                                        <div class="choice-card-label" style="font-size: 0.65rem;">Szary</div>
+                                    </div>
+                                    <div class="choice-card" data-marble="Czarny" style="min-height: 40px; padding: 6px;" onclick="toggleMarbleColor('Czarny', this)">
+                                        <input type="checkbox" name="marble_chk" value="Czarny"><span class="check-mark"></span>
+                                        <div class="choice-card-label" style="font-size: 0.65rem;">Czarny</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KROK 4: Drobiazgi -->
+                <div class="choice-section">
+                    <div class="choice-heading">
+                        <div>
+                            <h3 class="display">Drobiazgi robią różnicę</h3>
+                        </div>
+                        <p>możesz wybrać kilka</p>
+                    </div>
+                    <div class="choice-grid details">
+                        <div class="choice-card details-card" data-extra="Posypka" onclick="toggleExtra('Posypka', 0.30, this)">
+                            <input type="checkbox"><span class="check-mark"></span>
+                            <div class="choice-card-label">Posypka</div>
+                            <div class="choice-card-price">+0,30 zł / szt.</div>
+                        </div>
+                        <div class="choice-card details-card" data-extra="Drizzle" onclick="toggleExtra('Drizzle', 0.50, this, true)">
+                            <input type="checkbox"><span class="check-mark"></span>
+                            <div class="choice-card-label">Drizzle</div>
+                            <div class="choice-card-price">+0,50 zł / szt.</div>
+                        </div>
+                        <div class="choice-card details-card" data-extra="Jadalne złoto" onclick="toggleExtra('Jadalne złoto', 0.50, this)">
+                            <input type="checkbox"><span class="check-mark"></span>
+                            <div class="choice-card-label">Jadalne złoto</div>
+                            <div class="choice-card-price">+0,50 zł / szt.</div>
+                        </div>
+                        <div class="choice-card details-card" data-extra="Papier pralinkowy" onclick="toggleExtra('Papier pralinkowy', 0.40, this)">
+                            <input type="checkbox"><span class="check-mark"></span>
+                            <div class="choice-card-label">Papier pralinkowy</div>
+                            <div class="choice-card-price">+0,40 zł / szt.</div>
+                        </div>
+                        <div class="choice-card details-card" data-extra="Kokardka na patyczku" onclick="toggleExtra('Kokardka na patyczku', 0.40, this)">
+                            <input type="checkbox"><span class="check-mark"></span>
+                            <div class="choice-card-label">Kokardka</div>
+                            <div class="choice-card-price">+0,40 zł / szt.</div>
+                        </div>
+                    </div>
+
+                    <div id="drizzle-color-block" class="conditional-choice-block" style="display: none;">
+                        <div class="required-field">
+                            <label>Kolor drizzle? <span>* wymagane</span></label>
+                            <input type="text" id="drizzle-color-text" class="field-input" placeholder="Np. biały, złoty, różowy..." oninput="updateState()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sticky Summary Card -->
+            <div class="summary-card">
+                <div class="summary-label">Twój przepis</div>
+                <h3 class="display">Wygląda pysznie.</h3>
+                
+                <div class="summary-list">
+                    <div class="summary-row">
+                        <span>Paczka</span>
+                        <strong id="sum-qty">Wybierz ilość</strong>
+                    </div>
+                    <div class="summary-row">
+                        <span>Opakowanie (pudełko)</span>
+                        <strong>Obowiązkowe (+4,00 zł)</strong>
+                    </div>
+                    <div class="summary-row" id="sum-row-split" style="display: none;">
+                        <span>Podział na kompozycje</span>
+                        <strong id="sum-split">-</strong>
+                    </div>
+                    <div id="sum-comp-rows"></div>
+                    <div class="summary-row" id="sum-row-discount" style="display: none;">
+                        <span>Rabat ilościowy</span>
+                        <strong id="sum-discount" style="color: #b8dfcf;">-0 zł</strong>
+                    </div>
+                    <div class="summary-row" id="sum-row-coupon-applied" style="display: none;">
+                        <span>Kod rabatowy</span>
+                        <strong id="sum-coupon-name" style="color: #b8dfcf;">-0%</strong>
+                    </div>
+                </div>
+
+                <div class="summary-total">
+                    <span>Łącznie</span>
+                    <strong id="sum-total">0,00 zł</strong>
+                </div>
+
+                <div class="summary-coupon">
+                    <input type="text" id="coupon-code-input" class="coupon-input" placeholder="Kod rabatowy">
+                    <button type="button" class="coupon-button" onclick="applyCoupon()">Dodaj</button>
+                </div>
+                <div id="coupon-success-msg" class="coupon-success" style="display: none;"></div>
+                <div id="coupon-error-msg" class="coupon-error" style="display: none;">Nie ma takiego kodu rabatowego.</div>
+
+                <div id="builder-error-box" class="builder-error" style="display: none;"></div>
+
+                <button type="button" class="summary-primary" id="open-modal-btn" onclick="openOrderModal()" disabled>Przejdź do zamówienia →</button>
+                
+                <div style="margin-top: 10px; text-align: center;">
+                    <button type="button" onclick="copySummaryToClipboard()" style="background: none; border: none; color: #f2b7c6; font-size: 0.7rem; text-decoration: underline; cursor: pointer;">
+                        📋 Skopiuj podsumowanie do wiadomości
+                    </button>
+                </div>
+
+                <p class="summary-footnote">Dostawa uzgadniana PV · wycena orientacyjna.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Popup z Formularzem Zamówienia -->
+    <div id="order-modal" class="modal-overlay" onclick="handleModalClick(event)">
+        <div class="modal-content">
+            <button type="button" class="modal-close" onclick="closeOrderModal()">✕</button>
+            
+            <section class="order-section">
+                <div class="order-grid">
+                    <div class="order-copy">
+                        <span class="eyebrow">Ostatni krok</span>
+                        <h2 class="display">Potwierdź i wyślij.</h2>
+                        <p>Sprawdź poniższą listę wyborów (w tym obowiązkowe pudełko +4 zł), zaznacz potwierdzenie i uzupełnij dane.</p>
+                    </div>
+
+                    <div class="contact-card">
+                        <!-- Podsumowanie do potwierdzenia -->
+                        <div class="review-box">
+                            <h4>Twoje wybrane zestawienie:</h4>
+                            <div class="review-list" id="modal-review-list">
+                                <!-- Wypełniane dynamicznie przez JS -->
+                            </div>
+                            <div class="confirm-checkbox-group">
+                                <input type="checkbox" id="confirm-review-checkbox" onchange="updateState()">
+                                <label for="confirm-review-checkbox">Potwierdzam, że powyższa lista oraz doliczone pudełko (+4 zł) są w 100% poprawne i zgodne z moim wyborem.</label>
+                            </div>
+                        </div>
+
+                        <form id="order-form" action="https://formspree.io/f/xppawvnv" method="POST">
+                            
+                            <!-- Ukryte pole przesyłające konfigurację -->
+                            <input type="hidden" name="szczegoly_zamowienia" id="hidden-recipe-details">
+
+                            <div class="contact-fields">
+                                <div class="field">
+                                    <label>Imię i nazwisko <span style="color: #c8617c;">*</span></label>
+                                    <input type="text" name="imie_nazwisko" id="form-name" class="field-input" required placeholder="Twoje imię">
+                                </div>
+                                <div class="field">
+                                    <label>E-mail lub Telefon <span style="color: #c8617c;">* (wymagane jedno)</span></label>
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+                                        <input type="email" name="email" id="form-email" class="field-input" placeholder="E-mail" oninput="updateState()">
+                                        <input type="tel" name="telefon" id="form-phone" class="field-input" placeholder="Telefon" oninput="updateState()">
+                                    </div>
+                                    <span class="field-help" id="contact-error-msg" style="color: #c8617c; display: none;">Podaj e-mail lub numer telefonu.</span>
+                                </div>
+                                <div class="field">
+                                    <label>Termin odbioru <span style="color: #c8617c;">*</span></label>
+                                    <input type="date" name="termin" id="form-date" class="field-input" required onchange="handleDateChange(this.value)">
+                                    <span class="field-help" id="date-help-text">Wybierz datę (Weekend +10 zł).</span>
+                                </div>
+                                <div class="field">
+                                    <label>1. Zaliczka 50% <span style="color: #c8617c;">*</span></label>
+                                    <select name="platnosc_zaliczka" id="form-zaliczka" class="field-input" required>
+                                        <option value="" disabled selected>Wybierz płatność</option>
+                                        <option value="BLIK">BLIK</option>
+                                        <option value="Przelew tradycyjny">Przelew tradycyjny</option>
+                                    </select>
+                                </div>
+                                <div class="field wide">
+                                    <label>2. Pozostałe 50% (reszta kwoty) <span style="color: #c8617c;">*</span></label>
+                                    <select name="platnosc_reszta" id="form-reszta" class="field-input" required>
+                                        <option value="" disabled selected>Wybierz płatność</option>
+                                        <option value="Gotówka przy odbiorze">Gotówka przy odbiorze</option>
+                                        <option value="BLIK">BLIK</option>
+                                        <option value="Przelew tradycyjny">Przelew tradycyjny</option>
+                                    </select>
+                                </div>
+                                <div class="field wide">
+                                    <label>Wiadomość (opcjonalnie)</label>
+                                    <textarea name="wiadomosc" id="form-msg" class="notes-input" placeholder="Okazja, szczegóły kolorystyczne..."></textarea>
+                                </div>
+                            </div>
+
+                            <div class="contact-consent">
+                                Klikając przycisk, wysyłasz zapytanie. Odpiszemy osobiście z potwierdzeniem i szczegółami odbioru.
+                            </div>
+
+                            <div class="contact-actions">
+                                <div>
+                                    <div style="font-size: 0.62rem; color: #a17e84; text-transform: uppercase; font-weight: 700;">Dostawa PV</div>
+                                    <div id="form-total-preview" style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.2rem; color: #4a2b38; font-weight: 700;">Szacunkowo: 0,00 zł</div>
+                                </div>
+                                <button type="submit" id="submit-order-btn" class="primary-btn" disabled>Wyślij zapytanie ✉</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+<!-- Sekcja Nasze Prace z tekstem obok -->
+    <section class="page-shell" style="padding: 40px 0 60px;">
+        <div style="text-align: center; margin-bottom: 24px;">
+            <span class="eyebrow">Galeria</span>
+            <h2 class="display" style="color: #4a2b38; font-size: clamp(2rem, 5vw, 2.8rem); margin: 8px 0 0;">Nasze prace</h2>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr; gap: 24px; align-items: center; max-width: 900px; margin: 0 auto;">
+            <!-- Styl dla komputerów: zdjęcie obok tekstu -->
+            <style>
+                @media (min-width: 768px) {
+                    .galeria-grid { grid-template-columns: 1fr 1fr !important; gap: 40px !important; }
+                }
+            </style>
+            
+            <div class="galeria-grid" style="display: grid; grid-template-columns: 1fr; gap: 20px; align-items: center;">
+                <!-- Zdjęcie -->
+                <div style="border-radius: 24px; overflow: hidden; border: 1.5px solid #edcecd; background: #fffaf4; box-shadow: 0 12px 35px rgba(123, 73, 85, .08); padding: 12px;">
+                    <img src="przyklad.png" alt="Nasze cake-popsy" style="width: 100%; height: auto; border-radius: 16px; display: block;">
+                </div>
+                
+                <!-- Tekst obok -->
+                <div style="background: rgba(255, 250, 244, .95); border: 1.5px solid #edcecd; border-radius: 24px; padding: 24px; box-shadow: 0 12px 35px rgba(123, 73, 85, .05);">
+                    <span class="eyebrow" style="margin-bottom: 8px; display: block;">Realizacja specjalna</span>
+                    <h3 class="display" style="color: #4a2b38; font-size: 1.4rem; margin: 0 0 12px;">„Zróbcie coś różowego na 18-stkę mojej córki”</h3>
+                    <p style="color: #735865; font-size: 0.9rem; line-height: 1.6; margin: 0;">
+                        Takie zamówienia kochamy najbardziej! Z okazji 18. urodzin przygotowaliśmy wyjątkowe, eleganckie pudełko pełne różowych cake-popsów. Połączenie subtelnych marmurkowych wzorów, złocistych detali i jadalnych numerków „18” sprawiło, że solenizantka i goście byli zachwyceni. Każdy słodki detal tworzymy z pasją i dbałością o każdy szczegół!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="page-shell footer-inner">
+            <a href="#" class="wordmark">
+                <img src="be0a888f-14ad-4208-bf30-945b65a19325 (1).png" alt="Cake by NANA Logo" class="wordmark-logo" style="filter: brightness(1.8); height: 32px;">
+            </a>
+            <div class="footer-copy">© 2026 Cake by NANA.</div>
+            <a href="#kreator" class="footer-contact">Zamówienie PV ↗</a>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+
+        function makeDefaultComposition() {
+            return {
+                qty: 0,
+                fillingSelected: false,
+                filling: '',
+                fillingPrice: 0,
+                isCustomCookie: false,
+                customCookieText: '',
+                coatingSelected: false,
+                coating: '',
+                coatingPrice: 0,
+                coatingAddon: 'Bez dodatku',
+                coatingAddonPrice: 0,
+                addonType: null,
+                addonDetailText: '',
+                color: '',
+                colorPrice: 0,
+                marbleColors: [],
+                extras: [],
+                hasDrizzle: false,
+                drizzleColorText: ''
+            };
+        }
+
+        let builderState = {
+            qtySelected: false,
+            qtyType: 'fixed',
+            qty: 0,
+            unitPrice: 0,
+            boxFee: 4.00,
+            splitEnabled: false,
+            splitCount: 1,
+            activeComposition: 0,
+            compositions: [makeDefaultComposition()],
+            couponCode: '',
+            couponDiscountPercent: 0,
+            dateSelected: false,
+            date: ''
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const yyyy = tomorrow.getFullYear();
+            const mm = String(tomorrow.getMonth() + 1).padStart(2, '0');
+            const dd = String(tomorrow.getDate()).padStart(2, '0');
+            const dateStr = `${yyyy}-${mm}-${dd}`;
+            
+            const dateInput = document.getElementById('form-date');
+            dateInput.min = dateStr;
+            dateInput.value = '';
+            
+            updateState();
+        });
+
+        function openOrderModal() {
+            const modal = document.getElementById('order-modal');
+            modal.classList.add('active');
+        }
+
+        function closeOrderModal() {
+            const modal = document.getElementById('order-modal');
+            modal.classList.remove('active');
+        }
+
+        function handleModalClick(event) {
+            if (event.target.id === 'order-modal') {
+                closeOrderModal();
+            }
+        }
+
+        function handleDateChange(val) {
+            if (val) {
+                builderState.dateSelected = true;
+                builderState.date = val;
+            } else {
+                builderState.dateSelected = false;
+                builderState.date = '';
+            }
+            updateState();
+        }
+
+        function setQuantityOption(qty, price, element) {
+            builderState.qtySelected = true;
+            builderState.qtyType = 'fixed';
+            builderState.qty = qty;
+            builderState.unitPrice = price;
+
+            document.querySelectorAll('.choice-grid.four .choice-card').forEach(c => c.classList.remove('selected'));
+            element.classList.add('selected');
+            element.querySelector('input').checked = true;
+
+            if (builderState.splitCount > 1) {
+                redistributeQuantities();
+            } else {
+                builderState.compositions[0].qty = qty;
+            }
+            updateState();
+        }
+
+        function selectCustomCard(element) {
+            builderState.qtySelected = true;
+            builderState.qtyType = 'custom';
+            document.querySelectorAll('.choice-grid.four .choice-card').forEach(c => c.classList.remove('selected'));
+            element.classList.add('selected');
+            document.getElementById('custom-radio').checked = true;
+
+            const inputVal = Math.min(Math.max(parseInt(document.getElementById('custom-qty-input').value) || 35, 1), 200);
+            calculateCustomPricing(inputVal);
+            updateState();
+        }
+
+        function handleCustomInput(val) {
+            const customCard = document.getElementById('custom-radio').closest('.choice-card');
+            document.querySelectorAll('.choice-grid.four .choice-card').forEach(c => c.classList.remove('selected'));
+            customCard.classList.add('selected');
+            document.getElementById('custom-radio').checked = true;
+            builderState.qtySelected = true;
+            builderState.qtyType = 'custom';
+
+            // Allow the field to be emptied while typing instead of snapping back to a
+            // placeholder value on every keystroke (that forced digits to append after it).
+            if (val === '') return;
+
+            let num = parseInt(val, 10);
+            if (isNaN(num)) return;
+            num = Math.min(Math.max(num, 1), 200);
+            const inputEl = document.getElementById('custom-qty-input');
+            if (String(num) !== val) inputEl.value = num;
+
+            calculateCustomPricing(num);
+            updateState();
+        }
+
+        function handleCustomInputBlur(el) {
+            if (el.value === '') {
+                el.value = builderState.qtyType === 'custom' && builderState.qty ? builderState.qty : 1;
+            }
+            handleCustomInput(el.value);
+        }
+
+        function calculateCustomPricing(qty) {
+            builderState.qty = qty;
+            if (qty <= 10) {
+                builderState.unitPrice = 6.00;
+            } else if (qty <= 30) {
+                builderState.unitPrice = 5.00;
+            } else {
+                builderState.unitPrice = 4.50;
+            }
+            if (builderState.splitCount > 1) {
+                redistributeQuantities();
+            } else {
+                builderState.compositions[0].qty = qty;
+            }
+        }
+
+        /* ---------- Podział na kompozycje ---------- */
+
+        function setSplitChoice(val, element) {
+            document.querySelectorAll('#split-no-card, #split-yes-card').forEach(c => c.classList.remove('selected'));
+            element.classList.add('selected');
+            element.querySelector('input').checked = true;
+
+            builderState.splitEnabled = val;
+            const countBlock = document.getElementById('split-count-block');
+            const tabsWrapper = document.getElementById('split-tabs-wrapper');
+            const qtyBlock = document.getElementById('split-qty-block');
+
+            if (val) {
+                countBlock.style.display = 'block';
+                // Jeśli wcześniej nie wybrano liczby kompozycji, nie pokazujemy jeszcze zakładek.
+                if (builderState.splitCount <= 1) {
+                    qtyBlock.style.display = 'none';
+                    tabsWrapper.style.display = 'none';
+                } else {
+                    qtyBlock.style.display = 'block';
+                    tabsWrapper.style.display = 'block';
+                }
+            } else {
+                countBlock.style.display = 'none';
+                qtyBlock.style.display = 'none';
+                tabsWrapper.style.display = 'none';
+                document.querySelectorAll('#split-count-2, #split-count-3, #split-count-4').forEach(c => c.classList.remove('selected'));
+                builderState.splitCount = 1;
+                builderState.compositions = [builderState.compositions[0]];
+                builderState.activeComposition = 0;
+                renderCompositionUI(0);
+            }
+            updateState();
+        }
+
+        function setSplitCount(n, element) {
+            document.querySelectorAll('#split-count-2, #split-count-3, #split-count-4').forEach(c => c.classList.remove('selected'));
+            element.classList.add('selected');
+            element.querySelector('input').checked = true;
+
+            builderState.splitCount = n;
+
+            const existing = builderState.compositions;
+            const next = [];
+            for (let i = 0; i < n; i++) {
+                next.push(existing[i] ? existing[i] : makeDefaultComposition());
+            }
+            builderState.compositions = next;
+            builderState.activeComposition = 0;
+
+            redistributeQuantities();
+            renderSplitQtyInputs();
+            renderSplitTabs();
+            renderCompositionUI(0);
+
+            document.getElementById('split-qty-block').style.display = 'block';
+            document.getElementById('split-tabs-wrapper').style.display = 'block';
+
+            updateState();
+        }
+
+        function redistributeQuantities() {
+            const total = builderState.qty || 0;
+            const n = builderState.compositions.length;
+            if (n <= 1) {
+                if (builderState.compositions[0]) builderState.compositions[0].qty = total;
+                return;
+            }
+            const base = Math.floor(total / n);
+            const remainder = total % n;
+            builderState.compositions.forEach((comp, i) => {
+                comp.qty = base + (i < remainder ? 1 : 0);
+            });
+            renderSplitQtyInputs();
+        }
+
+        function renderSplitQtyInputs() {
+            const container = document.getElementById('split-qty-inputs');
+            if (!container) return;
+            let html = '';
+            builderState.compositions.forEach((comp, i) => {
+                html += `
+                    <div class="split-qty-item">
+                        <label>Kompozycja ${i + 1}</label>
+                        <input type="number" class="quantity-input" min="1" value="${comp.qty}" oninput="handleCompositionQtyInput(${i}, this.value)">
+                    </div>`;
+            });
+            html += `<div class="split-sum-indicator" id="split-sum-indicator"></div>`;
+            container.innerHTML = html;
+            updateSplitSumIndicator();
+        }
+
+        function handleCompositionQtyInput(index, value) {
+            let num = parseInt(value, 10);
+            if (isNaN(num) || num < 0) num = 0;
+            builderState.compositions[index].qty = num;
+            updateState();
+        }
+
+        function updateSplitSumIndicator() {
+            const el = document.getElementById('split-sum-indicator');
+            if (!el) return;
+            const sum = builderState.compositions.reduce((a, c) => a + (parseInt(c.qty) || 0), 0);
+            const total = builderState.qty || 0;
+            if (sum === total) {
+                el.textContent = `Suma: ${sum} / ${total} szt. ✓`;
+                el.className = 'split-sum-indicator ok';
+            } else {
+                el.textContent = `Suma: ${sum} / ${total} szt. — popraw ilości, aby się zgadzały.`;
+                el.className = 'split-sum-indicator bad';
+            }
+        }
+
+        function renderSplitTabs() {
+            const wrap = document.getElementById('split-tabs');
+            if (!wrap) return;
+            let html = '';
+            builderState.compositions.forEach((comp, i) => {
+                html += `<button type="button" class="split-tab${i === builderState.activeComposition ? ' active' : ''}" onclick="switchComposition(${i})">Kompozycja ${i + 1} · ${comp.qty || 0} szt.</button>`;
+            });
+            wrap.innerHTML = html;
+        }
+
+        function syncActiveCompositionFromDOM() {
+            const comp = builderState.compositions[builderState.activeComposition];
+            if (!comp) return;
+            if (comp.color === 'Marmurkowy') {
+                const checkedMarbles = [];
+                document.querySelectorAll('input[name="marble_chk"]:checked').forEach(c => checkedMarbles.push(c.value));
+                comp.marbleColors = checkedMarbles;
+            }
+            const cookieEl = document.getElementById('custom-cookie-text');
+            if (cookieEl) comp.customCookieText = cookieEl.value.trim();
+            const addonEl = document.getElementById('addon-detail-text');
+            if (addonEl) comp.addonDetailText = addonEl.value.trim();
+            const drizzleEl = document.getElementById('drizzle-color-text');
+            if (drizzleEl) comp.drizzleColorText = drizzleEl.value.trim();
+        }
+
+        function switchComposition(index) {
+            syncActiveCompositionFromDOM();
+            builderState.activeComposition = index;
+            renderCompositionUI(index);
+            renderSplitTabs();
+            updateState();
+        }
+
+        function renderCompositionUI(index) {
+            const comp = builderState.compositions[index];
+            if (!comp) return;
+
+            // Smak
+            document.querySelectorAll('[data-fill]').forEach(el => {
+                const match = comp.fillingSelected && el.dataset.fill === comp.filling;
+                el.classList.toggle('selected', match);
+                const input = el.querySelector('input');
+                if (input) input.checked = match;
+            });
+            const cookieBlock = document.getElementById('custom-cookie-block');
+            const cookieText = document.getElementById('custom-cookie-text');
+            if (comp.isCustomCookie) {
+                cookieBlock.style.display = 'block';
+                cookieText.value = comp.customCookieText || '';
+            } else {
+                cookieBlock.style.display = 'none';
+                cookieText.value = '';
+            }
+
+            // Polewa
+            document.querySelectorAll('[data-coat]').forEach(el => {
+                const match = comp.coatingSelected && el.dataset.coat === comp.coating;
+                el.classList.toggle('selected', match);
+                const input = el.querySelector('input');
+                if (input) input.checked = match;
+            });
+
+            // Dodatek do czekolady
+            document.querySelectorAll('[data-addon]').forEach(el => {
+                const match = el.dataset.addon === comp.coatingAddon;
+                el.classList.toggle('selected', match);
+                const input = el.querySelector('input');
+                if (input) input.checked = match;
+            });
+            const addonTextBlock = document.getElementById('addon-text-block');
+            const addonLabelEl = document.getElementById('addon-text-label');
+            const addonInputEl = document.getElementById('addon-detail-text');
+            if (comp.addonType) {
+                addonTextBlock.style.display = 'block';
+                if (comp.addonType === 'nuts') {
+                    addonLabelEl.innerHTML = 'Jakie orzechy? <span>* wymagane</span>';
+                    addonInputEl.placeholder = 'Np. migdały, włoskie...';
+                } else {
+                    addonLabelEl.innerHTML = 'Jakie ciasteczka? <span>* wymagane</span>';
+                    addonInputEl.placeholder = 'Np. Oreo, Lotus...';
+                }
+                addonInputEl.value = comp.addonDetailText || '';
+            } else {
+                addonTextBlock.style.display = 'none';
+                addonInputEl.value = '';
+            }
+
+            // Kolor
+            const colorWrapper = document.getElementById('colorization-wrapper');
+            if (comp.coating === 'Biała czekolada') {
+                colorWrapper.style.display = 'block';
+            } else {
+                colorWrapper.style.display = 'none';
+            }
+            document.querySelectorAll('[data-color]').forEach(el => {
+                const match = el.dataset.color === comp.color;
+                el.classList.toggle('selected', match);
+                const input = el.querySelector('input');
+                if (input) input.checked = match;
+            });
+            const marbleBlock = document.getElementById('marble-colors-block');
+            if (comp.color === 'Marmurkowy') {
+                marbleBlock.style.display = 'block';
+            } else {
+                marbleBlock.style.display = 'none';
+            }
+            document.querySelectorAll('[data-marble]').forEach(el => {
+                const checked = comp.marbleColors.includes(el.dataset.marble);
+                el.classList.toggle('selected', checked);
+                const chk = el.querySelector('input[name="marble_chk"]');
+                if (chk) chk.checked = checked;
+            });
+
+            // Drobiazgi
+            document.querySelectorAll('[data-extra]').forEach(el => {
+                const name = el.dataset.extra;
+                const checked = comp.extras.some(e => e.name === name);
+                el.classList.toggle('selected', checked);
+                const chk = el.querySelector('input[type="checkbox"]');
+                if (chk) chk.checked = checked;
+            });
+            const drizzleBlock = document.getElementById('drizzle-color-block');
+            const drizzleText = document.getElementById('drizzle-color-text');
+            if (comp.hasDrizzle) {
+                drizzleBlock.style.display = 'block';
+                drizzleText.value = comp.drizzleColorText || '';
+            } else {
+                drizzleBlock.style.display = 'none';
+                drizzleText.value = '';
+            }
+        }
+
+        function activeComp() {
+            return builderState.compositions[builderState.activeComposition];
+        }
+
+        function setFilling(name, price, element, showCustom = false) {
+            const comp = activeComp();
+            comp.fillingSelected = true;
+            comp.filling = name;
+            comp.fillingPrice = price;
+            comp.isCustomCookie = showCustom;
+
+            const grid = element.closest('.choice-grid');
+            grid.querySelectorAll('.choice-card').forEach(c => c.classList.remove('selected'));
+            element.classList.add('selected');
+            element.querySelector('input').checked = true;
+
+            const block = document.getElementById('custom-cookie-block');
+            if (showCustom) {
+                block.style.display = 'block';
+            } else {
+                block.style.display = 'none';
+                document.getElementById('custom-cookie-text').value = '';
+                comp.customCookieText = '';
+            }
+            updateState();
+        }
+
+        function setCoating(name, price, element) {
+            const comp = activeComp();
+            comp.coatingSelected = true;
+            comp.coating = name;
+            comp.coatingPrice = price;
+
+            const grid = element.closest('.choice-grid');
+            grid.querySelectorAll('.choice-card').forEach(c => c.classList.remove('selected'));
+            element.classList.add('selected');
+            element.querySelector('input').checked = true;
+
+            const colorWrapper = document.getElementById('colorization-wrapper');
+            if (name !== 'Biała czekolada') {
+                colorWrapper.style.display = 'none';
+                comp.color = 'Brak (naturalna polewa)';
+                comp.colorPrice = 0;
+            } else {
+                colorWrapper.style.display = 'block';
+                comp.color = '';
+                comp.colorPrice = 0;
+            }
+            updateState();
+        }
+
+        function setCoatingAddon(name, price, element, type = null) {
+            const comp = activeComp();
+            comp.coatingAddon = name;
+            comp.coatingAddonPrice = price;
+            comp.addonType = type;
+
+            const grid = element.closest('.choice-grid');
+            grid.querySelectorAll('.choice-card').forEach(c => c.classList.remove('selected'));
+            element.classList.add('selected');
+            element.querySelector('input').checked = true;
+
+            const textBlock = document.getElementById('addon-text-block');
+            const labelEl = document.getElementById('addon-text-label');
+            const inputEl = document.getElementById('addon-detail-text');
+
+            if (type) {
+                textBlock.style.display = 'block';
+                if (type === 'nuts') {
+                    labelEl.innerHTML = 'Jakie orzechy? <span>* wymagane</span>';
+                    inputEl.placeholder = 'Np. migdały, włoskie...';
+                } else {
+                    labelEl.innerHTML = 'Jakie ciasteczka? <span>* wymagane</span>';
+                    inputEl.placeholder = 'Np. Oreo, Lotus...';
+                }
+            } else {
+                textBlock.style.display = 'none';
+                inputEl.value = '';
+                comp.addonDetailText = '';
+            }
+            updateState();
+        }
+
+        function setColor(name, price, element) {
+            const comp = activeComp();
+            comp.color = name;
+            comp.colorPrice = price;
+
+            const grid = element.closest('.choice-grid');
+            grid.querySelectorAll(':scope > .choice-card').forEach(c => c.classList.remove('selected'));
+            element.classList.add('selected');
+            element.querySelector('input').checked = true;
+
+            const marbleBlock = document.getElementById('marble-colors-block');
+            if (name === 'Marmurkowy') {
+                marbleBlock.style.display = 'block';
+            } else {
+                marbleBlock.style.display = 'none';
+                comp.marbleColors = [];
+                document.querySelectorAll('input[name="marble_chk"]').forEach(chk => {
+                    chk.checked = false;
+                    chk.closest('.choice-card').classList.remove('selected');
+                });
+            }
+            updateState();
+        }
+
+        function toggleMarbleColor(colorName, element) {
+            const chk = element.querySelector('input[name="marble_chk"]');
+            chk.checked = !chk.checked;
+            
+            if (chk.checked) {
+                element.classList.add('selected');
+            } else {
+                element.classList.remove('selected');
+            }
+            updateState();
+        }
+
+        function toggleExtra(name, price, element, isDrizzle = false) {
+            const comp = activeComp();
+            element.classList.toggle('selected');
+            const chk = element.querySelector('input[type="checkbox"]');
+            chk.checked = !chk.checked;
+
+            if (chk.checked) {
+                comp.extras.push({ name, price });
+            } else {
+                comp.extras = comp.extras.filter(e => e.name !== name);
+            }
+
+            if (isDrizzle) {
+                comp.hasDrizzle = chk.checked;
+                const drizzleBlock = document.getElementById('drizzle-color-block');
+                drizzleBlock.style.display = chk.checked ? 'block' : 'none';
+                if (!chk.checked) {
+                    document.getElementById('drizzle-color-text').value = '';
+                    comp.drizzleColorText = '';
+                }
+            }
+            updateState();
+        }
+
+        function applyCoupon() {
+            const code = document.getElementById('coupon-code-input').value.trim();
+            const successMsg = document.getElementById('coupon-success-msg');
+            const errorMsg = document.getElementById('coupon-error-msg');
+            
+            if (code === 'TIKTOK1') {
+                builderState.couponCode = 'TIKTOK1';
+                builderState.couponDiscountPercent = 5;
+                successMsg.style.display = 'block';
+                successMsg.textContent = 'Kod TIKTOK1 aktywowany (-5%)!';
+                errorMsg.style.display = 'none';
+            } else if (code === 'ZNAJOMY342') {
+                builderState.couponCode = 'ZNAJOMY342';
+                builderState.couponDiscountPercent = 15;
+                successMsg.style.display = 'block';
+                successMsg.textContent = 'Kod ZNAJOMY342 aktywowany (-15%)!';
+                errorMsg.style.display = 'none';
+            } else if (code === '') {
+                builderState.couponCode = '';
+                builderState.couponDiscountPercent = 0;
+                successMsg.style.display = 'none';
+                errorMsg.style.display = 'none';
+            } else {
+                builderState.couponCode = '';
+                builderState.couponDiscountPercent = 0;
+                successMsg.style.display = 'none';
+                errorMsg.style.display = 'block';
+            }
+            updateState();
+        }
+
+        function buildFillingLabel(comp) {
+            let label = comp.fillingSelected ? comp.filling : 'Nie wybrano';
+            if (comp.isCustomCookie) {
+                label += comp.customCookieText ? ` (${comp.customCookieText})` : ' (brak)';
+            }
+            return label;
+        }
+
+        function buildCoatingLabel(comp) {
+            let label = comp.coatingSelected ? comp.coating : 'Nie wybrano';
+            if (comp.coatingSelected && comp.coatingAddon && comp.coatingAddon !== 'Bez dodatku') {
+                label += ` + ${comp.coatingAddon}${comp.addonDetailText ? ' (' + comp.addonDetailText + ')' : ''}`;
+            }
+            return label;
+        }
+
+        function buildColorText(comp) {
+            let t = comp.color || 'Brak';
+            if (comp.color === 'Marmurkowy' && comp.marbleColors.length > 0) {
+                t += ` [${comp.marbleColors.join(', ')}]`;
+            }
+            return t;
+        }
+
+        function buildExtrasText(comp) {
+            if (comp.extras.length === 0) return 'Brak dodatków';
+            let names = comp.extras.map(e => e.name);
+            if (comp.hasDrizzle && comp.drizzleColorText) {
+                names = names.map(n => n === 'Drizzle' ? `Drizzle (${comp.drizzleColorText})` : n);
+            }
+            return names.join(', ');
+        }
+
+        function updateState() {
+            syncActiveCompositionFromDOM();
+
+            const compositions = builderState.compositions;
+            const isSplit = builderState.splitCount > 1;
+
+            let totalUnits = 0;
+            let subtotalWithoutBox = 0;
+            compositions.forEach(comp => {
+                const extrasUnit = comp.extras.reduce((a, e) => a + e.price, 0);
+                const itemUnitPrice = builderState.unitPrice + comp.fillingPrice + comp.coatingPrice + comp.coatingAddonPrice + comp.colorPrice + extrasUnit;
+                const q = parseInt(comp.qty) || 0;
+                totalUnits += q;
+                subtotalWithoutBox += builderState.qtySelected ? itemUnitPrice * q : 0;
+            });
+
+            const splitFee = (builderState.qtySelected && isSplit) ? (builderState.splitCount - 1) * 5 : 0;
+            let subtotal = builderState.qtySelected ? subtotalWithoutBox + builderState.boxFee + splitFee : 0;
+
+            let bulkDiscountAmount = 0;
+            let bulkDiscountText = '';
+            if (builderState.qtySelected && builderState.qty >= 100) {
+                const totalPercent = 10;
+                bulkDiscountAmount = subtotalWithoutBox * (totalPercent / 100);
+                bulkDiscountText = `${totalPercent}% rabatu od 100 szt. (-${bulkDiscountAmount.toFixed(2)} zł)`;
+                subtotal -= bulkDiscountAmount;
+            }
+
+            let couponDiscountAmount = 0;
+            if (builderState.couponDiscountPercent > 0) {
+                couponDiscountAmount = subtotal * (builderState.couponDiscountPercent / 100);
+                subtotal -= couponDiscountAmount;
+            }
+
+            let finalPrice = subtotal;
+
+            let weekendExtra = 0;
+            let isWeekend = false;
+            if (builderState.dateSelected && builderState.date) {
+                const dayOfWeek = new Date(builderState.date).getDay();
+                if (dayOfWeek === 0 || dayOfWeek === 6) {
+                    isWeekend = true;
+                    weekendExtra = 10.00;
+                    finalPrice += weekendExtra;
+                }
+            }
+
+            let errors = [];
+            if (!builderState.qtySelected) {
+                errors.push('Wybierz ilość sztuk (Krok 1).');
+            }
+
+            if (isSplit) {
+                const sumQty = compositions.reduce((a, c) => a + (parseInt(c.qty) || 0), 0);
+                if (builderState.qtySelected && sumQty !== builderState.qty) {
+                    errors.push(`Suma sztuk w kompozycjach (${sumQty}) musi się zgadzać z całkowitą ilością (${builderState.qty} szt.).`);
+                }
+                compositions.forEach((comp, i) => {
+                    if (builderState.qtySelected && (parseInt(comp.qty) || 0) < 1) {
+                        errors.push(`Kompozycja ${i + 1}: podaj przynajmniej 1 sztukę.`);
+                    }
+                });
+            }
+
+            compositions.forEach((comp, i) => {
+                const prefix = isSplit ? `Kompozycja ${i + 1}: ` : '';
+                if (!comp.fillingSelected) errors.push(`${prefix}Wybierz smak (Krok 2).`);
+                if (!comp.coatingSelected) errors.push(`${prefix}Wybierz polewę (Krok 3).`);
+                if (builderState.qtySelected && comp.isCustomCookie && !comp.customCookieText) {
+                    errors.push(`${prefix}Wpisz rodzaj własnego ciasteczka.`);
+                }
+                if (builderState.qtySelected && comp.addonType && !comp.addonDetailText) {
+                    errors.push(`${prefix}Wpisz rodzaj ${comp.addonType === 'nuts' ? 'orzechów' : 'ciasteczek'}.`);
+                }
+                if (builderState.qtySelected && comp.coating === 'Biała czekolada' && !comp.color) {
+                    errors.push(`${prefix}Wybierz kolor koloryzacji.`);
+                }
+                if (builderState.qtySelected && comp.color === 'Marmurkowy' && comp.marbleColors.length < 1) {
+                    errors.push(`${prefix}Wybierz min. 1 kolor do marmurka.`);
+                }
+                if (builderState.qtySelected && comp.hasDrizzle && !comp.drizzleColorText) {
+                    errors.push(`${prefix}Wpisz kolor drizzle.`);
+                }
+            });
+
+            const errorBox = document.getElementById('builder-error-box');
+            if (errors.length > 0) {
+                errorBox.style.display = 'block';
+                errorBox.innerHTML = errors.join('<br>');
+            } else {
+                errorBox.style.display = 'none';
+            }
+
+            const openModalBtn = document.getElementById('open-modal-btn');
+            let isBuilderComplete = (errors.length === 0);
+            if (isBuilderComplete) {
+                openModalBtn.disabled = false;
+            } else {
+                openModalBtn.disabled = true;
+            }
+
+            updateSplitSumIndicator();
+            if (isSplit) renderSplitTabs();
+
+            const sumRowSplit = document.getElementById('sum-row-split');
+            if (isSplit) {
+                sumRowSplit.style.display = 'flex';
+                document.getElementById('sum-split').textContent = `${builderState.splitCount} kompozycje (+${splitFee.toFixed(2)} zł)`;
+            } else {
+                sumRowSplit.style.display = 'none';
+            }
+
+            const compRowsContainer = document.getElementById('sum-comp-rows');
+            if (!isSplit) {
+                const comp = compositions[0];
+                compRowsContainer.innerHTML = `
+                    <div class="summary-row">
+                        <span>Nadzienie</span>
+                        <strong>${buildFillingLabel(comp)}</strong>
+                    </div>
+                    <div class="summary-row">
+                        <span>Polewa</span>
+                        <strong>${buildCoatingLabel(comp)}</strong>
+                    </div>
+                    ${comp.coating === 'Biała czekolada' ? `<div class="summary-row"><span>Kolor</span><strong>${buildColorText(comp)}</strong></div>` : ''}
+                    ${comp.extras.length > 0 ? `<div class="summary-row"><span>Dodatki</span><strong>${buildExtrasText(comp)}</strong></div>` : ''}
+                `;
+            } else {
+                let html = '';
+                compositions.forEach((comp, i) => {
+                    html += `
+                        <div class="comp-summary-group">
+                            <div class="comp-summary-heading">Kompozycja ${i + 1} · ${comp.qty || 0} szt.</div>
+                            <div class="summary-row"><span>Nadzienie</span><strong>${buildFillingLabel(comp)}</strong></div>
+                            <div class="summary-row"><span>Polewa</span><strong>${buildCoatingLabel(comp)}</strong></div>
+                            ${comp.coating === 'Biała czekolada' ? `<div class="summary-row"><span>Kolor</span><strong>${buildColorText(comp)}</strong></div>` : ''}
+                            ${comp.extras.length > 0 ? `<div class="summary-row"><span>Dodatki</span><strong>${buildExtrasText(comp)}</strong></div>` : ''}
+                        </div>`;
+                });
+                compRowsContainer.innerHTML = html;
+            }
+
+            const discountRow = document.getElementById('sum-row-discount');
+            if (builderState.qtySelected && builderState.qty > 30) {
+                discountRow.style.display = 'flex';
+                document.getElementById('sum-discount').textContent = bulkDiscountText;
+            } else {
+                discountRow.style.display = 'none';
+            }
+
+            const couponRow = document.getElementById('sum-row-coupon-applied');
+            if (builderState.couponDiscountPercent > 0) {
+                couponRow.style.display = 'flex';
+                document.getElementById('sum-coupon-name').textContent = `${builderState.couponCode} (-${builderState.couponDiscountPercent}%)`;
+            } else {
+                couponRow.style.display = 'none';
+            }
+
+            let finalPriceStr = builderState.qtySelected ? finalPrice.toFixed(2).replace('.', ',') + ' zł' : '0,00 zł';
+            if (builderState.qtySelected && isWeekend) {
+                finalPriceStr += ' (+10 zł weekend)';
+            }
+
+            document.getElementById('sum-total').textContent = finalPriceStr;
+            document.getElementById('form-total-preview').textContent = `Szacunkowo: ${finalPriceStr}`;
+            document.getElementById('sum-qty').textContent = builderState.qtySelected ? `${builderState.qty} cake popsów` : 'Wybierz ilość';
+
+            /* ---------- Modal review + ukryty tekst zamówienia ---------- */
+
+            const modalReviewList = document.getElementById('modal-review-list');
+            let modalHtml = `
+                <div class="review-item"><span>Ilość sztuk:</span><strong>${builderState.qtySelected ? builderState.qty + ' szt.' : '-'}</strong></div>
+                <div class="review-item"><span>Opakowanie (pudełko):</span><strong>Obowiązkowe (+4,00 zł)</strong></div>
+            `;
+            if (isSplit) {
+                modalHtml += `<div class="review-item"><span>Podział na kompozycje:</span><strong>${builderState.splitCount} (+${splitFee.toFixed(2)} zł)</strong></div>`;
+            }
+
+            let recipeSummaryText = `ZAMÓWIENIE CAKE POPS:\n` +
+                `- Ilość: ${builderState.qtySelected ? builderState.qty + ' szt.' : 'Nie wybrano'}\n` +
+                `- Opakowanie: Pudełko dekoracyjne (+4,00 zł)\n`;
+            if (isSplit) {
+                recipeSummaryText += `- Podział na kompozycje: ${builderState.splitCount} (+${splitFee.toFixed(2)} zł)\n`;
+            }
+
+            if (!isSplit) {
+                const comp = compositions[0];
+                modalHtml += `
+                    <div class="review-item"><span>Nadzienie:</span><strong>${buildFillingLabel(comp)}</strong></div>
+                    <div class="review-item"><span>Polewa:</span><strong>${buildCoatingLabel(comp)}</strong></div>
+                    ${comp.coating === 'Biała czekolada' ? `<div class="review-item"><span>Kolor:</span><strong>${buildColorText(comp)}</strong></div>` : ''}
+                    ${comp.extras.length > 0 ? `<div class="review-item"><span>Drobiazgi:</span><strong>${buildExtrasText(comp)}</strong></div>` : ''}
+                `;
+                recipeSummaryText += `- Nadzienie: ${buildFillingLabel(comp)}\n` +
+                    `- Polewa: ${buildCoatingLabel(comp)}\n` +
+                    (comp.coating === 'Biała czekolada' ? `- Kolor: ${buildColorText(comp)}\n` : '') +
+                    (comp.extras.length > 0 ? `- Dodatki: ${buildExtrasText(comp)}\n` : '');
+            } else {
+                compositions.forEach((comp, i) => {
+                    modalHtml += `
+                        <div class="review-comp-block">
+                            <div class="review-comp-title">Kompozycja ${i + 1} · ${comp.qty || 0} szt.</div>
+                            <div class="review-comp-detail">Nadzienie: ${buildFillingLabel(comp)}</div>
+                            <div class="review-comp-detail">Polewa: ${buildCoatingLabel(comp)}</div>
+                            ${comp.coating === 'Biała czekolada' ? `<div class="review-comp-detail">Kolor: ${buildColorText(comp)}</div>` : ''}
+                            ${comp.extras.length > 0 ? `<div class="review-comp-detail">Dodatki: ${buildExtrasText(comp)}</div>` : ''}
+                        </div>`;
+                    recipeSummaryText += `- Kompozycja ${i + 1} (${comp.qty || 0} szt.): Nadzienie – ${buildFillingLabel(comp)}; Polewa – ${buildCoatingLabel(comp)}` +
+                        (comp.coating === 'Biała czekolada' ? `; Kolor – ${buildColorText(comp)}` : '') +
+                        (comp.extras.length > 0 ? `; Dodatki – ${buildExtrasText(comp)}` : '') + `\n`;
+                });
+            }
+
+            if (builderState.qty > 30) {
+                modalHtml += `<div class="review-item"><span>Rabat ilościowy:</span><strong>${bulkDiscountText}</strong></div>`;
+            }
+            if (builderState.couponDiscountPercent > 0) {
+                modalHtml += `<div class="review-item"><span>Kod rabatowy (${builderState.couponCode}):</span><strong style="color: #b8dfcf;">-${builderState.couponDiscountPercent}%</strong></div>`;
+            }
+            if (isWeekend) {
+                modalHtml += `<div class="review-item"><span>Dopłata za weekend:</span><strong>+10,00 zł</strong></div>`;
+            }
+            modalHtml += `<div class="review-item" style="border-top: 1.5px solid #e2c3bc; padding-top: 6px; margin-top: 4px;"><span>Razem szacunkowo:</span><strong style="color: #df6d8c; font-size: 0.88rem;">${finalPriceStr}</strong></div>`;
+            modalReviewList.innerHTML = modalHtml;
+
+            if (builderState.couponDiscountPercent > 0) {
+                recipeSummaryText += `- Kod rabatowy: ${builderState.couponCode} (-${builderState.couponDiscountPercent}%)\n`;
+            }
+
+            const nameVal = document.getElementById('form-name').value.trim();
+            const emailVal = document.getElementById('form-email').value.trim();
+            const phoneVal = document.getElementById('form-phone').value.trim();
+            const dateVal = document.getElementById('form-date').value.trim();
+            const zaliczkaVal = document.getElementById('form-zaliczka').value;
+            const resztaVal = document.getElementById('form-reszta').value;
+            const isConfirmedChecked = document.getElementById('confirm-review-checkbox').checked;
+
+            const contactErrorMsg = document.getElementById('contact-error-msg');
+            let hasContact = (emailVal !== '' || phoneVal !== '');
+            if (!hasContact && (emailVal !== '' || phoneVal !== '' || nameVal !== '')) {
+                contactErrorMsg.style.display = 'block';
+            } else {
+                contactErrorMsg.style.display = 'none';
+            }
+
+            const submitOrderBtn = document.getElementById('submit-order-btn');
+            let isFormComplete = nameVal !== '' && hasContact && dateVal !== '' && zaliczkaVal !== '' && resztaVal !== '' && isConfirmedChecked;
+
+            if (isFormComplete) {
+                submitOrderBtn.disabled = false;
+            } else {
+                submitOrderBtn.disabled = true;
+            }
+
+            recipeSummaryText += `- Termin: ${builderState.dateSelected ? builderState.date : 'Nie wybrano'}\n` +
+                `- Zaliczka 50%: ${zaliczkaVal || 'Nie wybrano'}\n` +
+                `- Reszta 50%: ${resztaVal || 'Nie wybrano'}\n` +
+                `Szacowany koszt: ${finalPriceStr}`;
+            
+            document.getElementById('hidden-recipe-details').value = recipeSummaryText;
+        }
+
+        document.getElementById('form-name').addEventListener('input', updateState);
+        document.getElementById('form-email').addEventListener('input', updateState);
+        document.getElementById('form-phone').addEventListener('input', updateState);
+        document.getElementById('form-date').addEventListener('change', updateState);
+        document.getElementById('form-zaliczka').addEventListener('change', updateState);
+        document.getElementById('form-reszta').addEventListener('change', updateState);
+
+        function copySummaryToClipboard() {
+            let text = document.getElementById('hidden-recipe-details').value;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Podsumowanie projektu zostało skopiowane do schowka!');
+            });
+        }
+    </script>
+</body>
+</html>
